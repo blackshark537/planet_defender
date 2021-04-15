@@ -1,0 +1,14 @@
+{
+  "appId": "com.blackshark537.spaceship",
+  "appName": "SpaceShip",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/SpaceShip",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "linuxAndroidStudioPath": "/home/blackshark/Downloads/android-studio/bin/studio.sh",
+  "cordova": {}
+}

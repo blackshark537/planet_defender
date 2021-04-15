@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SpaceShip</string>
+    <string name="title_activity_main">SpaceShip</string>
+    <string name="package_name">com.blackshark537.spaceship</string>
+    <string name="custom_url_scheme">com.blackshark537.spaceship</string>
+</resources>
