@@ -14,6 +14,7 @@ export class Background implements EntityInterface{
     effect = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAABsCAYAAACmYahKAAAAwklEQVR42sXVOQqEQBCF4Z593/fTeh8v4QUMzQwMRGhaXFvzQWGSwTfJ8KiCP/oqq6CUUmr0Iwo6jjNGiaDruhMUCz3Pm6JE0Pf9GeoPDIJgjhLBMAwXKBZGUbREiWAcxysUC5MkWaNYqLXeoETQGLNFsTBN0x2KhVmW7VEimOf5AcXCoiiOKBaWZXlCiWBVVWcUC+u6vqCIeEWx0Fp7Q0nhHcXCpmkeKCl8oljYtu0L1Z9sCPqTdS9iCPvX0c33wgfeOzebVnR3wOIAAAAtdEVYdFNvZnR3YXJlAGJ5LmJsb29kZHkuY3J5cHRvLmltYWdlLlBORzI0RW5jb2RlcqgGf+4AAAAASUVORK5CYII=';
     effects = [];
     bg_img;
+    planet_img;
     effect_img;
     sound = new Audio();
     constructor(canvas: HTMLCanvasElement){
@@ -26,6 +27,9 @@ export class Background implements EntityInterface{
         }
 
         const indx = Math.floor(Math.random() * this.bg.length );
+        this.planet_img = new Image();
+        this.planet_img.src = 'assets/Planet1.png';
+
         this.bg_img = new Image();
         this.effect_img = new Image();
 
@@ -43,6 +47,7 @@ export class Background implements EntityInterface{
 
     draw(delta_time: number, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement){
         ctx.drawImage(this.bg_img, 0, 0, canvas?.width, canvas?.height);
+        ctx.drawImage(this.planet_img, -180, canvas?.height-100, this.planet_img.width, this.planet_img.height);
         this.effects.forEach(ef =>{
             ctx.drawImage(this.effect_img, ef.x, ef.y, this.effect_img?.width, this.effect_img?.height);
         });
@@ -68,5 +73,8 @@ export class Background implements EntityInterface{
 
     shoot(callback){
     }
-    destroy(callback){}
+    destroy(callback){
+        this.sound.currentTime = 0;
+        this.sound.pause();
+    }
 }

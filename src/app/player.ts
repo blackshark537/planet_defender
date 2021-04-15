@@ -70,6 +70,7 @@ export class Player extends Entity implements PlayerInterface{
     fs_img: HTMLImageElement;
 
     p_scale = 0.6;
+    can_damage=true;
     
     constructor(canvas: HTMLCanvasElement){
         super();
@@ -91,6 +92,7 @@ export class Player extends Entity implements PlayerInterface{
         this.p_y = canvas.height-150;
         
         this.sound = new Audio();
+        this.sound.volume = 0.3;
         this.sound.src = 'assets/sfx_laser1.ogg';
 
         let start_x=0;
@@ -197,8 +199,10 @@ export class Player extends Entity implements PlayerInterface{
         if(this.live <= 0) callback('player');
     }
 
-    reduceLive(live){
-        this.live -= live;
+    reduceLive(live: number){
+        if(this.can_damage){
+            this.live -= live;
+        }
     }
 
     fullScreen(){
