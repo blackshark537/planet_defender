@@ -1,4 +1,14 @@
-/* .content{
-    margin-left: 30em;
-    margin-right: 30em;
-} */
+
+
+#canvas {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    cursor: crosshair;
+}

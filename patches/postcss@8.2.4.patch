@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 50c08e05176b87f18e7cd3d69e615ba9d7d4d66c..4a6ce6be5103d1b11aefb952a3b2d66d5f6b149a 100644
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,8 @@
+       "import": "./lib/postcss.mjs",
+       "types": "./lib/postcss.d.ts"
+     },
+-    "./": "./"
++    "./": "./",
++    "./package.json": "./package.json"
+   },
+   "main": "./lib/postcss.js",
+   "types": "./lib/postcss.d.ts",

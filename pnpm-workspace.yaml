@@ -1,0 +1,7 @@
+allowBuilds:
+  '@angular/cli': true
+  core-js: true
+  es5-ext: true
+  fsevents: true
+patchedDependencies:
+  postcss@8.2.4: patches/postcss@8.2.4.patch

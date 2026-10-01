@@ -1,39 +1,34 @@
-import { EntityInterface } from "./models/Entity.interface";
-import { Plugins } from '@capacitor/core';
+import { Entity } from "./models/Entity.class";
+import { GameComponent } from "./models/Entity.interface";
+//import { AudioPlayer } from './native.audio';
 
-const { App } = Plugins;
-
-export class Background implements EntityInterface{
-    bg = [
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1QjNGRkZEQTg4RDAxMUUzQUVGMkIyOEUxRUZFMkQzMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1QjNGRkZEQjg4RDAxMUUzQUVGMkIyOEUxRUZFMkQzMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjVCM0ZGRkQ4ODhEMDExRTNBRUYyQjI4RTFFRkUyRDMxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjVCM0ZGRkQ5ODhEMDExRTNBRUYyQjI4RTFFRkUyRDMxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+busJ6wAACLFJREFUeNrs3dtu1EYA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',
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1RDg2M0M4ODg4RDAxMUUzQUU2MUQyRDYzRjY3MTI4NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1RDg2M0M4OTg4RDAxMUUzQUU2MUQyRDYzRjY3MTI4NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjVEODYzQzg2ODhEMDExRTNBRTYxRDJENjNGNjcxMjg2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjVEODYzQzg3ODhEMDExRTNBRTYxRDJENjNGNjcxMjg2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+qlibdgAABz1JREFUeNrs3XFv3DQD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',
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo1RjZBOEVCMTg4RDAxMUUzQTUxQzgyRDhCMjk2RDg0MyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo1RjZBOEVCMjg4RDAxMUUzQTUxQzgyRDhCMjk2RDg0MyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjVGNkE4RUFGODhEMDExRTNBNTFDODJEOEIyOTZEODQzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjVGNkE4RUIwODhEMDExRTNBNTFDODJEOEIyOTZEODQzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+u2NvKAAABkhJREFUeNrs3XFP3DYY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',
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NDkxMSwgMjAxMy8xMC8yOS0xMTo0NzoxNiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2MjE5OUU4OTg4RDAxMUUzOEEyRkNDM0VCNzYzOTA1NCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2MjE5OUU4QTg4RDAxMUUzOEEyRkNDM0VCNzYzOTA1NCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjYyMTk5RTg3ODhEMDExRTM4QTJGQ0MzRUI3NjM5MDU0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjYyMTk5RTg4ODhEMDExRTM4QTJGQ0MzRUI3NjM5MDU0Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+yeMMlwAAB7VJREFUeNrs3f+S0zYC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'
-    ];
+export class Background extends Entity implements GameComponent{
 
     effect = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAABsCAYAAACmYahKAAAAwklEQVR42sXVOQqEQBCF4Z593/fTeh8v4QUMzQwMRGhaXFvzQWGSwTfJ8KiCP/oqq6CUUmr0Iwo6jjNGiaDruhMUCz3Pm6JE0Pf9GeoPDIJgjhLBMAwXKBZGUbREiWAcxysUC5MkWaNYqLXeoETQGLNFsTBN0x2KhVmW7VEimOf5AcXCoiiOKBaWZXlCiWBVVWcUC+u6vqCIeEWx0Fp7Q0nhHcXCpmkeKCl8oljYtu0L1Z9sCPqTdS9iCPvX0c33wgfeOzebVnR3wOIAAAAtdEVYdFNvZnR3YXJlAGJ5LmJsb29kZHkuY3J5cHRvLmltYWdlLlBORzI0RW5jb2RlcqgGf+4AAAAASUVORK5CYII=';
     effects = [];
     bg_img;
-    planet_img;
-    effect_img;
-    sound = new Audio();
+    planet_img: HTMLImageElement;
+    effect_img: HTMLImageElement;
+    level = 1;
+    planetActive = true;
+    isTransitioning = false;
+    transitTimer = 0;
+    transitDuration = 30000; // 30 seconds after planet passes
+    private onLevelUpCallback: (newLevel: number) => void = () => {};
+    private onPlanetPassedCallback: (clearedLevel: number) => void = () => {};
+    
     constructor(canvas: HTMLCanvasElement){
+        super();
 
-        this.sound = new Audio();
-        this.sound.loop = true;
-        this.sound.src = 'assets/through_space.ogg';
-        this.sound.onloadeddata = ()=>{
-            //this.sound.play();
-        }
-
-        const indx = Math.floor(Math.random() * this.bg.length );
         this.planet_img = new Image();
-        this.planet_img.src = 'assets/Planet1.png';
+        this.planet_img.src = `assets/Planet${this.level}.png`;
 
-        this.bg_img = new Image();
+        this.y = -350;
+        this.planetActive = true;
+        this.isTransitioning = false;
+
         this.effect_img = new Image();
 
-        this.bg_img.src = this.bg[indx];
         this.effect_img.src = this.effect;
         if(this.effects.length === 0 ){
             for (let i = 0; i < 5; i++) {
@@ -45,11 +40,40 @@ export class Background implements EntityInterface{
         }
     }
 
+    onLevelUp(callback: (newLevel: number) => void): void {
+        this.onLevelUpCallback = callback;
+    }
+
+    onPlanetPassed(callback: (clearedLevel: number) => void): void {
+        this.onPlanetPassedCallback = callback;
+    }
+
     draw(delta_time: number, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement){
-        ctx.drawImage(this.bg_img, 0, 0, canvas?.width, canvas?.height);
-        ctx.drawImage(this.planet_img, -180, canvas?.height-100, this.planet_img.width, this.planet_img.height);
+        
+        ctx.fillStyle = 'rgba(0,0,0,0.5)'
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        // Draw Planet only when active in the current sector
+        if (this.planetActive && this.planet_img.complete && this.planet_img.naturalWidth > 0) {
+            ctx.drawImage(
+                this.planet_img,
+                -180, 
+                this.y,
+                this.planet_img.width || this.planet_img.naturalWidth, 
+                this.planet_img.height || this.planet_img.naturalHeight
+            );
+        }
+
         this.effects.forEach(ef =>{
-            ctx.drawImage(this.effect_img, ef.x, ef.y, this.effect_img?.width, this.effect_img?.height);
+            if (this.effect_img.complete && this.effect_img.naturalWidth > 0) {
+                ctx.drawImage(
+                    this.effect_img, 
+                    Math.floor(ef.x),
+                    Math.floor(ef.y),
+                    this.effect_img?.width, 
+                    this.effect_img?.height
+                );
+            }
         });
     }
 
@@ -57,13 +81,62 @@ export class Background implements EntityInterface{
         return null;
     }
 
+    shake(dt:number, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement){
+        this.preShake(ctx);
+        this.draw(dt, ctx, canvas);
+        this.postShake(ctx);
+    }
+
+    preShake(ctx: CanvasRenderingContext2D) {
+        ctx.save();
+        let dx = this.lerp(-20,20,Math.random());
+        //let dy = this.lerp(-10,10,Math.random());
+        ctx.translate(dx, 0);
+    }
+
+    postShake(ctx: CanvasRenderingContext2D) {
+        ctx.restore();
+    }
+  
+    restoreLive(){}
+
     reduceLive(live: number){
         
     }
 
     update(delta_time: number, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement){
+        const planetHeight = this.planet_img.naturalHeight || this.planet_img.height || 1000;
+
+        if (this.planetActive) {
+            // Planet drifts steadily across space (~35-40s per planet)
+            const planetSpeed = 0.04 + (this.level - 1) * 0.0025;
+            this.y += delta_time * planetSpeed;
+
+            // When the planet completely exits the bottom of the screen
+            if (this.y > canvas.height + 150) {
+                // The planet has passed! Enter 30-second deep space transition
+                this.planetActive = false;
+                this.isTransitioning = true;
+                this.transitTimer = this.transitDuration;
+                this.onPlanetPassedCallback(this.level);
+            }
+        } else if (this.isTransitioning) {
+            // Countdown 30 seconds after the planet has passed before next level
+            this.transitTimer -= delta_time;
+            if (this.transitTimer <= 0) {
+                this.isTransitioning = false;
+                this.level = this.level < 14 ? this.level + 1 : 1;
+                this.planet_img.src = `assets/Planet${this.level}.png`;
+                this.y = -400 - planetHeight;
+                this.planetActive = true;
+                this.onLevelUpCallback(this.level);
+            }
+        }
+
+        // Hyperspace speed increase during deep space transition
+        const effectSpeed = (0.4 + (this.level - 1) * 0.025) * (this.isTransitioning ? 1.35 : 1.0);
         this.effects.forEach(ef =>{
-            ef.y += 0.4*delta_time;
+            ef.y += effectSpeed * delta_time;
             if(ef.y > canvas.height+50){
                 ef.x = Math.round(Math.random()*canvas.width);
                 ef.y = Math.round(Math.random()*canvas.height)*-1
@@ -74,7 +147,6 @@ export class Background implements EntityInterface{
     shoot(callback){
     }
     destroy(callback){
-        this.sound.currentTime = 0;
-        this.sound.pause();
+        callback(this.level);
     }
 }
