@@ -97,6 +97,19 @@ export class Shoot extends Entity implements GameComponent {
         this.y -= delta_time * this.lerp(-1, 1, this.targeY_pos);
     }
 
+    getCenter(): { x: number; y: number } {
+        const w = this.s_img?.width || 12;
+        const h = this.s_img?.height || 36;
+        return {
+            x: this.x + 25 + w / 2,
+            y: this.y - 100 + h / 2
+        };
+    }
+
+    getCollisionRadius(): number {
+        return 10;
+    }
+
     distance(enemy): number{
         return this.getDistance(enemy);
     }

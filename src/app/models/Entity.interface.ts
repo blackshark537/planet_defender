@@ -11,6 +11,8 @@ export interface EntityInterface{
     invLerp(min: number, max: number, V: number): number;
     lerp(min: number, max: number, T: number): number;
     getPosition();
+    getCollisionRadius?(): number;
+    getCenter?(): { x: number; y: number };
 }
 
 export interface GameComponent {
@@ -21,6 +23,8 @@ export interface GameComponent {
     distance(entiry: Entity);
     reduceLive(live: number);
     restoreLive();
+    getCollisionRadius?(): number;
+    getCenter?(): { x: number; y: number };
 }
 
 export interface EnemyInterface{

@@ -90,28 +90,19 @@ export class ShootFactory {
             case GunType.TRIPLE:
                 return [
                     this.acquire({
-                        x: playerPos.x,
+                        x: playerPos.x - 16,
                         y: playerPos.y - 40,
                         targetY: 1,
-                        targetX: 0.6,
+                        targetX: 0.62,
                         gun: 3,
                         damage: stats.damage,
                         piercing: stats.piercing
                     }),
                     this.acquire({
-                        x: playerPos.x,
-                        y: playerPos.y - 40,
-                        targetY: 0.9,
-                        targetX: 0.5,
-                        gun: 3,
-                        damage: stats.damage,
-                        piercing: stats.piercing
-                    }),
-                    this.acquire({
-                        x: playerPos.x,
+                        x: playerPos.x + 16,
                         y: playerPos.y - 40,
                         targetY: 1,
-                        targetX: 0.4,
+                        targetX: 0.38,
                         gun: 3,
                         damage: stats.damage,
                         piercing: stats.piercing

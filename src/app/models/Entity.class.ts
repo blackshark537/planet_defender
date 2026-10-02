@@ -22,11 +22,29 @@ export class Entity implements EntityInterface{
         return (V-min)/(max-min);
     }
 
-    getDistance(object: Entity): number{
-        return Math.hypot(object.x - this.x , object.y - this.y);
+    getCenter(): { x: number; y: number } {
+        return {
+            x: this.x + (this.width || 0) / 2,
+            y: this.y + (this.height || 0) / 2
+        };
     }
 
-    getPosition(){}
+    getCollisionRadius(): number {
+        return (Math.min(this.width || 40, this.height || 40) * (this.scale || 1)) / 2;
+    }
+
+    getDistance(object: Entity): number{
+        const c1 = (this as any).getCenter ? (this as any).getCenter() : { x: this.x, y: this.y };
+        const c2 = (object as any)?.getCenter ? (object as any).getCenter() : ((object as any)?.getPosition ? (object as any).getPosition() : { x: object?.x || 0, y: object?.y || 0 });
+        return Math.hypot(c2.x - c1.x, c2.y - c1.y);
+    }
+
+    getPosition(){
+        return {
+            x: this.x,
+            y: this.y
+        };
+    }
 
     getDotProduct(object: Entity): number{
         return  (object.x*this.x)+(object.y*this.y);

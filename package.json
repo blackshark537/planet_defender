@@ -5,6 +5,9 @@
     "ng": "NODE_OPTIONS=--openssl-legacy-provider ng",
     "start": "NODE_OPTIONS=--openssl-legacy-provider ng serve",
     "build": "NODE_OPTIONS=--openssl-legacy-provider ng build",
+    "build:prod": "NODE_OPTIONS=--openssl-legacy-provider ng build --prod",
+    "github-build": "NODE_OPTIONS=--openssl-legacy-provider ng build --prod --base-href 'https://blackshark537.github.io/planet_defender/'",
+    "github-deploy": "npx angular-cli-ghpages --dir=dist/SpaceShip --no-silent",
     "test": "NODE_OPTIONS=--openssl-legacy-provider ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

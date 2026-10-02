@@ -69,6 +69,14 @@ export class PlayerDecorator extends Entity implements GameComponent {
     public getPosition() {
         return this.decoratedPlayer.getPosition();
     }
+
+    public getCenter(): { x: number; y: number } {
+        return (this.decoratedPlayer as any).getCenter ? (this.decoratedPlayer as any).getCenter() : this.decoratedPlayer.getPosition();
+    }
+
+    public getCollisionRadius(): number {
+        return (this.decoratedPlayer as any).getCollisionRadius ? (this.decoratedPlayer as any).getCollisionRadius() : 22;
+    }
 }
 
 export class ShieldPlayer extends PlayerDecorator {

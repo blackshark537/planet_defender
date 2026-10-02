@@ -42,7 +42,7 @@ export class MeteorEnemy extends Entity implements GameComponent{
     timer = 0;
     timer2 = 0;
     isParticle = false;
-    powers = [powerType.PILL, powerType.SHIELD, powerType.BASIC, powerType.LASER, powerType.DOUBLE, powerType.TRIPLE];
+    powers = [powerType.PILL, powerType.SHIELD, powerType.LASER, powerType.DOUBLE, powerType.TRIPLE];
     pos;
     fallSpeed: number = 0.4;
     isGiant: boolean = false;
@@ -178,6 +178,21 @@ export class MeteorEnemy extends Entity implements GameComponent{
     restoreLive(){
         this.enemy.live=100;
     }
+    getCenter(): { x: number; y: number } {
+        const w = (this.enemy?.graph?.width || 80) * this.scale;
+        const h = (this.enemy?.graph?.height || 80) * this.scale;
+        return {
+            x: this.x + w / 2,
+            y: this.y + h / 2
+        };
+    }
+
+    getCollisionRadius(): number {
+        const w = this.enemy?.graph?.width || 80;
+        const h = this.enemy?.graph?.height || 80;
+        return Math.min(w, h) * this.scale * 0.45;
+    }
+
     getPosition(){
         return {
             x: this.x,

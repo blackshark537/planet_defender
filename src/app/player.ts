@@ -132,6 +132,21 @@ export class Player extends Entity implements GameComponent {
             return x >= canvas.width - 140 && y <= 65;
         };
 
+        const isBombButtonArea = (clientX: number, clientY: number) => {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / (rect.width || 1);
+            const scaleY = canvas.height / (rect.height || 1);
+            const x = (clientX - rect.left) * scaleX;
+            const y = (clientY - rect.top) * scaleY;
+            const size = canvas.width < 600 ? 60 : 64;
+            const pad = 15;
+            return x <= 16 + size + pad && y >= canvas.height - size - 20 - pad;
+        };
+
+        const isActionArea = (clientX: number, clientY: number) => {
+            return isPauseButtonArea(clientX, clientY) || isBombButtonArea(clientX, clientY);
+        };
+
         // Mouse controls
         addEventListener('mousemove', (e: MouseEvent) => {
             if (!this.controlsEnabled) return;
@@ -141,7 +156,7 @@ export class Player extends Entity implements GameComponent {
         addEventListener('mousedown', (e: MouseEvent) => {
             if (!this.controlsEnabled) return;
             if (e.button === 0) {
-                if (!isPauseButtonArea(e.clientX, e.clientY)) {
+                if (!isActionArea(e.clientX, e.clientY)) {
                     this.shooter = true;
                     setTargetFromPosition(e.clientX, e.clientY, false);
                 }
@@ -175,7 +190,7 @@ export class Player extends Entity implements GameComponent {
             if (!this.controlsEnabled) return;
             if (tm.touches.length > 0) {
                 const touch = tm.touches[0];
-                if (isPauseButtonArea(touch.clientX, touch.clientY)) {
+                if (isActionArea(touch.clientX, touch.clientY)) {
                     return;
                 }
                 if (tm.cancelable) tm.preventDefault();
@@ -188,7 +203,7 @@ export class Player extends Entity implements GameComponent {
             if (!this.controlsEnabled) return;
             if (tm.touches.length > 0) {
                 const touch = tm.touches[0];
-                if (isPauseButtonArea(touch.clientX, touch.clientY)) {
+                if (isActionArea(touch.clientX, touch.clientY)) {
                     return;
                 }
                 if (tm.cancelable) tm.preventDefault();
@@ -356,6 +371,21 @@ export class Player extends Entity implements GameComponent {
 
     restoreLive(){
         this.live = 100;
+    }
+
+    getCenter(): { x: number; y: number } {
+        const w = (this.player?.graph?.width || 60) * this.scale;
+        const h = (this.player?.graph?.height || 45) * this.scale;
+        return {
+            x: this.x + w / 2,
+            y: this.y - 100 + h / 2
+        };
+    }
+
+    getCollisionRadius(): number {
+        const w = (this.player?.graph?.width || 60) * this.scale;
+        const h = (this.player?.graph?.height || 45) * this.scale;
+        return Math.min(w, h) * 0.4;
     }
 
     getPosition(){
